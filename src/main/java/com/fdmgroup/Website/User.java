@@ -13,9 +13,9 @@ public class User {
 	private String username;
 	@Column
 	private String password;
-	private int gender; //1 = male, 0 = female
+	private String gender;
 	
-	public User(String username, String password, int gender) {
+	public User(String username, String password, String gender) {
 
 		this.username = username;
 		this.password = password;
@@ -43,19 +43,21 @@ public class User {
 		this.password = password;
 	}
 
-	public int isGender() {
+	public String isGender() {
 		return gender;
 	}
 
-	public void setGender(int gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 	
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + gender;
+		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -70,7 +72,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (gender != other.gender)
+		if (gender == null) {
+			if (other.gender != null)
+				return false;
+		} else if (!gender.equals(other.gender))
 			return false;
 		if (password == null) {
 			if (other.password != null)

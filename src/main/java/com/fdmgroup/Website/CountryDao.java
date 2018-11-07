@@ -4,53 +4,52 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-public class UserDao {
+public class CountryDao {
 	
-	private EntityManagerFactory emf;
+private EntityManagerFactory emf;
 	
-	public UserDao(EntityManagerFactory emf) {
+	public CountryDao(EntityManagerFactory emf) {
 		// TODO Auto-generated constructor stub
 		this.emf = emf;
 	}
 
-	public void add(User user) {
+	public void add(Country country) {
 		// TODO Auto-generated method stub
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
-		em.persist(user);
+		em.persist(country);
 		et.commit();
 		em.close();
 	}
 
-	public User get(String email) {
+	public Country get(String countryName) {
 		// TODO Auto-generated method stub
 		EntityManager em = emf.createEntityManager();
-		User userFromDb = em.find(User.class, email);
+		Country countryFromDb = em.find(Country.class, countryName);
 		em.close();
 		
-		return userFromDb;
+		return countryFromDb;
 	}
 	
-	public void update(String username, String password, String gender) {
+	public void update(String name, String newMap) {
 		// TODO Auto-generated method stub
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
-		User userFromDb = em.find(User.class, username);
+		Country countryFromDb = em.find(Country.class, name);
 		et.begin();
-		userFromDb.setPassword(password);
-		userFromDb.setGender(gender);
+		countryFromDb.setCountryMap(newMap);
 		et.commit();
 		em.close();
 	}
 	
-	public void remove(String username) {
+	public void remove(String name) {
 		// TODO Auto-generated method stub
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
-		User userFromDb = em.find(User.class, username);
+		Country countryFromDb = em.find(Country.class, name);
 		et.begin();
-		em.remove(userFromDb);
+		em.remove(countryFromDb);
 		et.commit();
 		em.close();
 	}

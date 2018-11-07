@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Gem_distribution")
+@Table(name = "gem_distribution")
 public class GemDistribution {
 	
 	@EmbeddedId

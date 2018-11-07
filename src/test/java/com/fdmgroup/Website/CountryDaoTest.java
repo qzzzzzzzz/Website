@@ -1,117 +1,116 @@
 package com.fdmgroup.Website;
 
+import static org.mockito.Mockito.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import static org.mockito.Mockito.*;
-
 
 import org.junit.Test;
 import org.mockito.InOrder;
 
-public class UserDaoTest {
+public class CountryDaoTest {
 	
 	@Test
-	public void adding_user_persists_and_cleans_up_resources() {
+	public void adding_country_persists_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
 		EntityManager mockEm = mock(EntityManager.class);
 		EntityTransaction mockEt = mock(EntityTransaction.class);
-		User mockUser = mock(User.class);
+		Country mockCountry = mock(Country.class);
 		when(mockEmf.createEntityManager()).thenReturn(mockEm);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
 		
 		//act
-		UserDao uDao = new UserDao(mockEmf);
-		uDao.add(mockUser);
+		CountryDao cDao = new CountryDao(mockEmf);
+		cDao.add(mockCountry);
 		
 		
 		//assert
 		verify(mockEmf).createEntityManager();
 		verify(mockEm).getTransaction();
 		verify(mockEt).begin();
-		verify(mockEm).persist(mockUser);
+		verify(mockEm).persist(mockCountry);
 		verify(mockEt).commit();
 		verify(mockEm).close();
 		
 	}
 	
 	@Test
-	public void getting_user_retrievers_user_and_cleans_up_resources() {
+	public void getting_country_retrievers_country_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
 		EntityManager mockEm = mock(EntityManager.class);
 		EntityTransaction mockEt = mock(EntityTransaction.class);
-		User mockUser = mock(User.class);
+		Country mockCountry = mock(Country.class);
 		when(mockEmf.createEntityManager()).thenReturn(mockEm);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
 		
 		//act
-		UserDao uDao = new UserDao(mockEmf);
-		uDao.get("qz");
+		CountryDao cDao = new CountryDao(mockEmf);
+		cDao.get("US");
 		
 		//assert
 		InOrder order = inOrder(mockEmf, mockEm);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(User.class, "qz");
+		order.verify(mockEm).find(Country.class, "US");
 		order.verify(mockEm).close();
 		
 	}
 	
 	@Test
-	public void updatting_user_and_cleans_up_resources() {
+	public void updatting_country_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
 		EntityManager mockEm = mock(EntityManager.class);
 		EntityTransaction mockEt = mock(EntityTransaction.class);
-		User mockUser = mock(User.class);
+		Country mockCountry = mock(Country.class);
 		when(mockEmf.createEntityManager()).thenReturn(mockEm);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
-		when(mockEm.find(User.class, "qz")).thenReturn(mockUser);
+		when(mockEm.find(Country.class, "US")).thenReturn(mockCountry);
 		
 		//act
-		UserDao uDao = new UserDao(mockEmf);
-		uDao.update("qz", "pass111", "male");
+		CountryDao cDao = new CountryDao(mockEmf);
+		cDao.update("US", "bbb.com");
 		
 		//assert
-		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockUser);
+		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockCountry);
 		order.verify(mockEmf).createEntityManager();
 		order.verify(mockEm).getTransaction();
-		order.verify(mockEm).find(User.class, "qz");
+		order.verify(mockEm).find(Country.class, "US");
 		order.verify(mockEt).begin();
-		order.verify(mockUser).setPassword("pass111");
-		order.verify(mockUser).setGender("male");		
+		order.verify(mockCountry).setCountryMap("bbb.com");
 		order.verify(mockEt).commit();
 		order.verify(mockEm).close();
 		
 	}
 	
 	@Test
-	public void removing_user_and_cleans_up_resources() {
+	public void removing_country_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
 		EntityManager mockEm = mock(EntityManager.class);
 		EntityTransaction mockEt = mock(EntityTransaction.class);
-		User mockUser = mock(User.class);
+		Country mockCountry = mock(Country.class);
 		when(mockEmf.createEntityManager()).thenReturn(mockEm);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
-		when(mockEm.find(User.class, "qz")).thenReturn(mockUser);
+		when(mockEm.find(Country.class, "US")).thenReturn(mockCountry);
 				
 		//act
-		UserDao uDao = new UserDao(mockEmf);
-		uDao.remove("qz");
+		CountryDao cDao = new CountryDao(mockEmf);
+		cDao.remove("US");
 				
 		//assert
-		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockUser);
+		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockCountry);
 		order.verify(mockEmf).createEntityManager();
 		order.verify(mockEm).getTransaction();
-		order.verify(mockEm).find(User.class, "qz");
+		order.verify(mockEm).find(Country.class, "US");
 		order.verify(mockEt).begin();
-		order.verify(mockEm).remove(mockUser);
+		order.verify(mockEm).remove(mockCountry);
 		order.verify(mockEt).commit();
 		order.verify(mockEm).close();
 	}
