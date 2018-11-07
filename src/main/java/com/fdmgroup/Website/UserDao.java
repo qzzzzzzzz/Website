@@ -31,5 +31,28 @@ public class UserDao {
 		
 		return userFromDb;
 	}
+	
+	public void update(String username, String password, int gender) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		User userFromDb = em.find(User.class, username);
+		et.begin();
+		userFromDb.setPassword(password);
+		userFromDb.setGender(gender);
+		et.commit();
+		em.close();
+	}
+	
+	public void remove(String username) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		User userFromDb = em.find(User.class, username);
+		et.begin();
+		em.remove(userFromDb);
+		et.commit();
+		em.close();
+	}
 
 }

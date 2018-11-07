@@ -12,7 +12,7 @@ import org.mockito.InOrder;
 public class SearchDaoTest {
 	
 	@Test
-	public void adding_user_persists_and_cleans_up_resources() {
+	public void adding_search_persists_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
@@ -38,13 +38,13 @@ public class SearchDaoTest {
 	}
 	
 	@Test
-	public void getting_user_retrievers_user_and_cleans_up_resources() {
+	public void getting_search_retrievers_search_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
 		EntityManager mockEm = mock(EntityManager.class);
 		EntityTransaction mockEt = mock(EntityTransaction.class);
-		Search mockUser = mock(Search.class);
+		Search mockSearch = mock(Search.class);
 		when(mockEmf.createEntityManager()).thenReturn(mockEm);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
 		

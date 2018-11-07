@@ -31,6 +31,37 @@ public class GemDao {
 		
 		return gemFromDb;
 	}
+	
+	public Gem update(String gemName) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		Gem gemFromDb = em.find(Gem.class, gemName);
+		em.close();
+		
+		return gemFromDb;
+	}
+	
+	public void update(String name, String newLink) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		Gem gemFromDb = em.find(Gem.class, name);
+		et.begin();
+		gemFromDb.setPictureLink(newLink);
+		et.commit();
+		em.close();
+	}
+	
+	public void remove(String name) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		Gem gemFromDb = em.find(Gem.class, name);
+		et.begin();
+		em.remove(gemFromDb);
+		et.commit();
+		em.close();
+	}
 
 
 }

@@ -59,5 +59,61 @@ public class UserDaoTest {
 		order.verify(mockEm).close();
 		
 	}
+	
+	@Test
+	public void updatting_user_and_cleans_up_resources() {
+		
+		//arrange
+		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
+		EntityManager mockEm = mock(EntityManager.class);
+		EntityTransaction mockEt = mock(EntityTransaction.class);
+		User mockUser = mock(User.class);
+		when(mockEmf.createEntityManager()).thenReturn(mockEm);
+		when(mockEm.getTransaction()).thenReturn(mockEt);
+		when(mockEm.find(User.class, "qz")).thenReturn(mockUser);
+		
+		//act
+		UserDao uDao = new UserDao(mockEmf);
+		uDao.update("qz", "pass111", 1);
+		
+		//assert
+		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockUser);
+		order.verify(mockEmf).createEntityManager();
+		order.verify(mockEm).getTransaction();
+		order.verify(mockEm).find(User.class, "qz");
+		order.verify(mockEt).begin();
+		order.verify(mockUser).setPassword("pass111");
+		order.verify(mockUser).setGender(1);		
+		order.verify(mockEt).commit();
+		order.verify(mockEm).close();
+		
+	}
+	
+	@Test
+	public void removing_user_and_cleans_up_resources() {
+		
+		//arrange
+		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
+		EntityManager mockEm = mock(EntityManager.class);
+		EntityTransaction mockEt = mock(EntityTransaction.class);
+		User mockUser = mock(User.class);
+		when(mockEmf.createEntityManager()).thenReturn(mockEm);
+		when(mockEm.getTransaction()).thenReturn(mockEt);
+		when(mockEm.find(User.class, "qz")).thenReturn(mockUser);
+				
+		//act
+		UserDao uDao = new UserDao(mockEmf);
+		uDao.remove("qz");
+				
+		//assert
+		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockUser);
+		order.verify(mockEmf).createEntityManager();
+		order.verify(mockEm).getTransaction();
+		order.verify(mockEm).find(User.class, "qz");
+		order.verify(mockEt).begin();
+		order.verify(mockEm).remove(mockUser);
+		order.verify(mockEt).commit();
+		order.verify(mockEm).close();
+	}
 
 }

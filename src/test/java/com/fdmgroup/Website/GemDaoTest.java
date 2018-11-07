@@ -12,7 +12,7 @@ import org.mockito.InOrder;
 public class GemDaoTest {
 	
 	@Test
-	public void adding_user_persists_and_cleans_up_resources() {
+	public void adding_gem_persists_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
@@ -38,7 +38,7 @@ public class GemDaoTest {
 	}
 	
 	@Test
-	public void getting_user_retrievers_user_and_cleans_up_resources() {
+	public void getting_gem_retrievers_gem_and_cleans_up_resources() {
 		
 		//arrange
 		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
@@ -59,5 +59,59 @@ public class GemDaoTest {
 		order.verify(mockEm).close();
 		
 	}
-
+	
+	@Test
+	public void updatting_gem_and_cleans_up_resources() {
+		
+		//arrange
+		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
+		EntityManager mockEm = mock(EntityManager.class);
+		EntityTransaction mockEt = mock(EntityTransaction.class);
+		Gem mockGem = mock(Gem.class);
+		when(mockEmf.createEntityManager()).thenReturn(mockEm);
+		when(mockEm.getTransaction()).thenReturn(mockEt);
+		when(mockEm.find(Gem.class, "Diamond")).thenReturn(mockGem);
+		
+		//act
+		GemDao gDao = new GemDao(mockEmf);
+		gDao.update("Diamond", "aaa.com");
+		
+		//assert
+		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockGem);
+		order.verify(mockEmf).createEntityManager();
+		order.verify(mockEm).getTransaction();
+		order.verify(mockEm).find(Gem.class, "Diamond");
+		order.verify(mockEt).begin();
+		order.verify(mockGem).setPictureLink("aaa.com");
+		order.verify(mockEt).commit();
+		order.verify(mockEm).close();
+		
+	}
+	
+	@Test
+	public void removing_gem_and_cleans_up_resources() {
+		
+		//arrange
+		EntityManagerFactory mockEmf = mock(EntityManagerFactory.class);
+		EntityManager mockEm = mock(EntityManager.class);
+		EntityTransaction mockEt = mock(EntityTransaction.class);
+		Gem mockGem = mock(Gem.class);
+		when(mockEmf.createEntityManager()).thenReturn(mockEm);
+		when(mockEm.getTransaction()).thenReturn(mockEt);
+		when(mockEm.find(Gem.class, "Diamond")).thenReturn(mockGem);
+				
+		//act
+		GemDao gDao = new GemDao(mockEmf);
+		gDao.remove("Diamond");
+				
+		//assert
+		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockGem);
+		order.verify(mockEmf).createEntityManager();
+		order.verify(mockEm).getTransaction();
+		order.verify(mockEm).find(Gem.class, "Diamond");
+		order.verify(mockEt).begin();
+		order.verify(mockEm).remove(mockGem);
+		order.verify(mockEt).commit();
+		order.verify(mockEm).close();
+	}
 }

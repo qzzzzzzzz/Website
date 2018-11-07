@@ -12,12 +12,12 @@ public class Gem {
 	@Id //use gemName as pk
 	private String gemName;
 	@Column
-	private String picture_link;
+	private String pictureLink;
 	
-	public Gem(String gemName, String picture_link) {
+	public Gem(String gemName, String pictureLink) {
 
 		this.gemName = gemName;
-		this.picture_link = picture_link;
+		this.pictureLink = pictureLink;
 	}
 
 	public Gem() {
@@ -32,12 +32,12 @@ public class Gem {
 		this.gemName = gemName;
 	}
 
-	public String getPicture_link() {
-		return picture_link;
+	public String getPictureLink() {
+		return pictureLink;
 	}
 
-	public void setPicture_link(String picture_link) {
-		this.picture_link = picture_link;
+	public void setPictureLink(String pictureLink) {
+		this.pictureLink = pictureLink;
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class Gem {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((gemName == null) ? 0 : gemName.hashCode());
-		result = prime * result + ((picture_link == null) ? 0 : picture_link.hashCode());
+		result = prime * result + ((pictureLink == null) ? 0 : pictureLink.hashCode());
 		return result;
 	}
 
@@ -63,16 +63,16 @@ public class Gem {
 				return false;
 		} else if (!gemName.equals(other.gemName))
 			return false;
-		if (picture_link == null) {
-			if (other.picture_link != null)
+		if (pictureLink == null) {
+			if (other.pictureLink != null)
 				return false;
-		} else if (!picture_link.equals(other.picture_link))
+		} else if (!pictureLink.equals(other.pictureLink))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Gem [gemName=" + gemName + ", picture_link=" + picture_link + "]";
+		return "Gem [gemName=" + gemName + ", picture_link=" + pictureLink + "]";
 	}
 }

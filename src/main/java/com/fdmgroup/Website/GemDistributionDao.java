@@ -31,5 +31,27 @@ private EntityManagerFactory emf;
 		
 		return gemDistributionFromDb;
 	}
+	
+	public void update(GemDistributionId gdId, String newExtraInfo) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		GemDistribution gdFromDb = em.find(GemDistribution.class, gdId);
+		et.begin();
+		gdFromDb.setExtraInfo(newExtraInfo);
+		et.commit();
+		em.close();
+	}
+	
+	public void remove(GemDistributionId gdId) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		GemDistribution gdFromDb = em.find(GemDistribution.class, gdId);
+		et.begin();
+		em.remove(gdFromDb);
+		et.commit();
+		em.close();
+	}
 
 }
